@@ -3,13 +3,10 @@ package com.wilke.android.helloworld.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.material.snackbar.Snackbar
 import com.wilke.android.helloworld.api.Prime
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 class PrimeModel : ViewModel() {
 
@@ -31,9 +28,5 @@ class PrimeModel : ViewModel() {
     }
 
     var meta = MutableLiveData<String>()
-
-    private fun showSnackbar(text: String) {
-
-    }
 
 }
