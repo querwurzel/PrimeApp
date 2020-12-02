@@ -14,11 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloStefan">
         <activity
-            android:name="com.wilke.android.prime.activities.SideActivity"
+            android:name="com.wilke.android.prime.presentation.SideActivity"
             android:label="@string/title_activity_side"
             android:theme="@style/Theme.HelloStefan.NoActionBar"/>
         <activity
-            android:name="com.wilke.android.prime.activities.MainActivity"
+            android:name="com.wilke.android.prime.presentation.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.HelloStefan.NoActionBar">

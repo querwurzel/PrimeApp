@@ -1,4 +1,4 @@
-package com.wilke.android.prime.activities
+package com.wilke.android.prime.presentation
 
 import android.content.Context
 import android.content.Intent
