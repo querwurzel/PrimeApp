@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wilke.android.helloworld">
+    package="com.wilke.android.prime">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".PrimeApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,11 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloStefan">
         <activity
-            android:name=".SideActivity"
+            android:name="com.wilke.android.prime.activities.SideActivity"
             android:label="@string/title_activity_side"
             android:theme="@style/Theme.HelloStefan.NoActionBar"/>
         <activity
-            android:name=".MainActivity"
+            android:name="com.wilke.android.prime.activities.MainActivity"
             android:label="@string/title_activity_main"
             android:launchMode="singleInstance"
             android:theme="@style/Theme.HelloStefan.NoActionBar">

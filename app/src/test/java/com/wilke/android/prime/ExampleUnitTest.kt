@@ -1,4 +1,4 @@
-package com.wilke.android.helloworld
+package com.wilke.android.prime
 
 import org.junit.Test
 

@@ -1,20 +1,30 @@
-package com.wilke.android.helloworld
+package com.wilke.android.prime.activities
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
-import com.wilke.android.helloworld.databinding.ActivityMainBinding
-import com.wilke.android.helloworld.viewmodel.PrimeModel
+import com.wilke.android.prime.R
+import com.wilke.android.prime.api.PrimeClient
+import com.wilke.android.prime.databinding.ActivityMainBinding
+import com.wilke.android.prime.viewmodel.PrimeModel
+import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    protected lateinit var primeClient: PrimeClient
 
     private val myTag = this.javaClass.name
 
@@ -27,14 +37,12 @@ class MainActivity : AppCompatActivity() {
 
         this.binding = ActivityMainBinding.inflate(layoutInflater)
         this.setContentView(binding.root)
+        //this.setContentView(R.layout.activity_main)
 
         val primeModel: PrimeModel by viewModels()
 
         primeModel.meta.observe(this, Observer {
             binding.tvMeta.text = it
-
-            binding.indeterminateBar.visibility = View.GONE
-            showSnackbar("Refreshed")
         })
 
         binding.btResults.setOnClickListener {
@@ -50,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding.tvMeta.text = meta
         binding.btMeta.setOnClickListener {
             binding.indeterminateBar.visibility = View.VISIBLE
-            primeModel.refresh()
+            refresh()
         }
     }
 
@@ -59,6 +67,27 @@ class MainActivity : AppCompatActivity() {
         Snackbar.make(view, text, TimeUnit.SECONDS.toMillis(2).toInt()).show()
 
         // PORNO!! Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    }
+
+    private fun refresh() {
+        val primeModel: PrimeModel by viewModels()
+        val metaCall = primeClient.fetchMeta()
+
+        metaCall.enqueue(object : Callback<String> {
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if (response.isSuccessful) {
+                    primeModel.meta.postValue(response.body()) // postValue sounds like threadsafe
+
+                    binding.indeterminateBar.visibility = View.GONE
+                    showSnackbar("Refreshed")
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.e(PrimeModel::class.simpleName, t.message!!)
+            }
+        })
+
     }
 
     override fun onPause() {

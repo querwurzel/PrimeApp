@@ -1,19 +1,25 @@
-package com.wilke.android.helloworld
+package com.wilke.android.prime.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import com.wilke.android.helloworld.api.Prime
-import com.wilke.android.helloworld.databinding.ActivitySideBinding
+import com.wilke.android.prime.R
+import com.wilke.android.prime.api.PrimeClient
+import com.wilke.android.prime.databinding.ActivitySideBinding
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SideActivity : AppCompatActivity() {
+
+    @Inject
+    protected lateinit var primeClient: PrimeClient
 
     private lateinit var binding: ActivitySideBinding
 
@@ -57,7 +63,7 @@ class SideActivity : AppCompatActivity() {
     }
 
     private fun fetchPersonalResults() {
-        val resultsCall = Prime.client().fetchResults()
+        val resultsCall = primeClient.fetchResults()
 
         resultsCall.enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
